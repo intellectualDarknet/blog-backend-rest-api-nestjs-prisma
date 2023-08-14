@@ -18,16 +18,27 @@ model Article {
   published   Boolean  @default(false)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-  author      User?    @relation(fields: [authorId], references: [id])
-  authorId    Int?
 }
 
 model User {
   id    Int @id @default(autoincrement())
   name  String?
   email String? @unique
+  role String
   password String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  articles  Article[] 
 }
+
+// model Client {
+//   id Int @id @default(autoincrement())
+//   initials String
+//   role String
+// }
+
+// model Catalog {
+//   author String
+//   book String
+
+//   @@id([author, book])
+// }

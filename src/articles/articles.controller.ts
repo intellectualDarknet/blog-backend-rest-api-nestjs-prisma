@@ -22,46 +22,50 @@ export class ArticlesController {
 
   @Post()
   @ApiCreatedResponse({ type: ArticleEntity })
-  create(@Body() createArticleDto: CreateArticleDto) {
-    return this.articlesService.create(createArticleDto);
+  async create(@Body() createArticleDto: CreateArticleDto) {
+    return new ArticleEntity(await this.articlesService.create(createArticleDto));
   }
 
   @Get()
   @ApiOkResponse({ type: ArticleEntity, isArray: true })
-  findAll() {
-    return this.articlesService.findAll();
+  async findAll() {
+    const all = await this.articlesService.findAll();
+    return all.map((elem) => new ArticleEntity(elem))
   }
 
   @Get('drafts')
   @ApiOkResponse({ type: ArticleEntity, isArray: true })
-  findDrafts() {
-    return this.articlesService.findDrafts();
+  async findDrafts() {
+    const all = await this.articlesService.findDrafts();
+    return all.map((draft) => new ArticleEntity(draft))
   }
 
   @Get(':id')
   @ApiOkResponse({ type: ArticleEntity })
-  async findOne(@Param('id', ParseIntPipe) id: string) {
-    const article = await this.articlesService.findOne(+id)
+  async findOne(@Param('id', ParseIntPipe) id: number) {
+    const article = await this.articlesService.findOne(id)
 
     if(!article) {
       throw new NotFoundException(`Article with ${id} does not exist.`)
     }
 
-    return article
+    return new ArticleEntity(article)
   }
 
   @Patch(':id')
   @ApiCreatedResponse({ type: ArticleEntity })
-  update(
+  async update(
     @Param('id', ParseIntPipe) id: number,
     @Body() updateArticleDto: UpdateArticleDto,
   ) {
-    return this.articlesService.update(id, updateArticleDto);
+    return new ArticleEntity(
+      await this.articlesService.update(id, updateArticleDto),
+    );
   }
 
   @Delete(':id')
   @ApiOkResponse({ type: ArticleEntity })
-  remove(@Param('id', ParseIntPipe) id: number) {
-    return this.articlesService.remove(id);
+  async remove(@Param('id', ParseIntPipe) id: number) {
+    return new ArticleEntity(await this.articlesService.remove(id));
   }
 }

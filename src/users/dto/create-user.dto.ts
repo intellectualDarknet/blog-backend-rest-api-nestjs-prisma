@@ -9,13 +9,16 @@ export class CreateUserDto {
 
     @IsString()
     @IsNotEmpty()
-    @ApiProperty()
-    email: string;
-
-    @IsString()
-    @IsNotEmpty()
     @MinLength(6)
     @ApiProperty()
     password: string;
 
+    @IsString()
+    @IsNotEmpty()
+    role: Role;
+}
+
+enum Role {
+    Admin,
+    User
 }
