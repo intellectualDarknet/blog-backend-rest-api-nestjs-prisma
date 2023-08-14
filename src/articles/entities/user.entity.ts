@@ -1,0 +1,22 @@
+import { ApiProperty } from "@nestjs/swagger";
+import { User } from '@prisma/client'
+
+export class UserEntity implements User {
+    @ApiProperty()
+    id: number;
+    
+    // makes property visible to swagger
+    @ApiProperty()
+    createdAt: Date;
+
+    @ApiProperty()
+    updatedAt: Date;
+
+    @ApiProperty()
+    name: string;
+
+    @ApiProperty()
+    email: string;
+
+    password: string;
+}
