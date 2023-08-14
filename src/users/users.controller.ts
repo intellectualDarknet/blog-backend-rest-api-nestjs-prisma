@@ -16,8 +16,8 @@ export class UsersController {
   @Post()
   // @Roles(Role.Admin)
   @ApiCreatedResponse({ type: UserEntity })
-  async create(@Body() createUserDto: CreateUserDto) {
-    return new UserEntity(await this.usersService.create(createUserDto));
+  async signUp(@Body() createUserDto: CreateUserDto) {
+    return new UserEntity(await this.usersService.signUp(createUserDto));
   }
 
   @Get()
@@ -59,4 +59,6 @@ export class UsersController {
   async remove(@Param('id', ParseIntPipe) id: number) {
     return new UserEntity(await this.usersService.remove(id));
   }
+
+  
 }

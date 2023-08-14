@@ -58,14 +58,12 @@ export class ArticlesController {
     @Param('id', ParseIntPipe) id: number,
     @Body() updateArticleDto: UpdateArticleDto,
   ) {
-    return new ArticleEntity(
-      await this.articlesService.update(id, updateArticleDto),
-    );
+    return this.articlesService.update(id, updateArticleDto);
   }
 
   @Delete(':id')
   @ApiOkResponse({ type: ArticleEntity })
-  async remove(@Param('id', ParseIntPipe) id: number) {
-    return new ArticleEntity(await this.articlesService.remove(id));
+  remove(@Param('id', ParseIntPipe) id: number) {
+    return this.articlesService.remove(id);
   }
 }

@@ -11,8 +11,12 @@ export class ArticlesService {
     return this.prisma.article.create({ data: createArticleDto });
   }
 
-  findDrafts() {
-    return this.prisma.article.findMany({ where: { published: false } });
+  getBookByAuthor() {
+
+  }
+
+  getBookByNaming() {
+
   }
 
   findAll() {
@@ -23,9 +27,6 @@ export class ArticlesService {
     return this.prisma.article.findUnique(
       { 
         where: { id },
-        include: {
-          author: true
-        }
       }
 
       );

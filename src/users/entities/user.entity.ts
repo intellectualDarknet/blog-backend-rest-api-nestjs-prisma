@@ -13,8 +13,17 @@ export class UserEntity implements User {
     @ApiProperty()
     name: string;
 
-    role: string;
+    @ApiProperty()
+    email: string;
+
+    @ApiProperty()
+    role: Role;
   
     @Exclude()
     password: string;
+  }
+
+  enum Role {
+    User, 
+    Admin
   }
