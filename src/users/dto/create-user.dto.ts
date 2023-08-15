@@ -5,7 +5,7 @@ export class CreateUserDto {
     @IsString()
     @IsNotEmpty()
     @ApiProperty()
-    name: string
+    email: string
 
     @IsString()
     @IsNotEmpty()
@@ -15,10 +15,9 @@ export class CreateUserDto {
 
     @IsString()
     @IsNotEmpty()
-    role: Role;
-}
+    @MinLength(6)
+    @ApiProperty()
+    name: string;
 
-enum Role {
-    Admin,
-    User
+    role: "Admin" | "User";
 }

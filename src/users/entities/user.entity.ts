@@ -6,6 +6,8 @@ export class UserEntity implements User {
     constructor(partial: Partial<UserEntity>) {
       Object.assign(this, partial);
     }
+    createdAt: Date;
+    updatedAt: Date;
 
     @ApiProperty()
     id: number;
@@ -17,13 +19,8 @@ export class UserEntity implements User {
     email: string;
 
     @ApiProperty()
-    role: Role;
+    role: "Admin" | "User";
   
     @Exclude()
     password: string;
-  }
-
-  enum Role {
-    User, 
-    Admin
-  }
+}

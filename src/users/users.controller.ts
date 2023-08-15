@@ -5,8 +5,6 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { ApiBearerAuth, ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { UserEntity } from './entities/user.entity';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
-import { Roles } from 'src/common/role';
-import { Role } from 'src/common/role.enum';
 
 @Controller('users')
 @ApiTags('users')
@@ -17,17 +15,20 @@ export class UsersController {
   // @Roles(Role.Admin)
   @ApiCreatedResponse({ type: UserEntity })
   async signUp(@Body() createUserDto: CreateUserDto) {
-    return new UserEntity(await this.usersService.signUp(createUserDto));
+    // return new UserEntity(await this.usersService.signUp(createUserDto));
+    return await this.usersService.signUp(createUserDto)
   }
 
   @Get()
-  @UseGuards(JwtAuthGuard)
+  // @UseGuards(JwtAuthGuard)
   // @Roles(Role.Admin)
-  @ApiBearerAuth()
+  // @ApiBearerAuth()
   @ApiOkResponse({ type: UserEntity, isArray: true })
   async findAll() {
-    const all = await this.usersService.findAll();
-    return all.map((elem) => new UserEntity(elem))
+
+    return await this.usersService.findAll()
+    // const all = await this.usersService.findAll();
+    // return all.map((elem) => new UserEntity(elem))
   }
 
   @Get(':id')
@@ -36,7 +37,8 @@ export class UsersController {
   @ApiBearerAuth()
   @ApiOkResponse({ type: UserEntity })
   async findOne(@Param('id', ParseIntPipe) id: string) {
-    return new UserEntity(await this.usersService.findOne(+id));
+    return await this.usersService.findOne(+id)
+    // return new UserEntity(await this.usersService.findOne(+id));
   }
 
   @Patch(':id')
@@ -48,7 +50,8 @@ export class UsersController {
     @Param('id', ParseIntPipe) id: number,
     @Body() updateUserDto: UpdateUserDto
   ) {
-    return new UserEntity(await this.usersService.update(id, updateUserDto));
+    return await this.usersService.update(id, updateUserDto)
+    // return new UserEntity(await this.usersService.update(id, updateUserDto));
   }
 
   @Delete(':id')
@@ -57,7 +60,8 @@ export class UsersController {
   @ApiBearerAuth()
   @ApiOkResponse({ type: UserEntity })
   async remove(@Param('id', ParseIntPipe) id: number) {
-    return new UserEntity(await this.usersService.remove(id));
+    return await this.usersService.remove(id)
+    // return new UserEntity(await this.usersService.remove(id));
   }
 
   

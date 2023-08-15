@@ -6,16 +6,10 @@ export class CatalogEntity implements Catalog {
   id: number;
 
   @ApiProperty()
-  name: string;
+  author: string;
 
   @ApiProperty()
-  email: string | null;
-
-  @ApiProperty()
-  password: string;
-
-  @ApiProperty()
-  role: Role;
+  naming: string | null;
 
   @ApiProperty()
   createdAt: Date;
@@ -30,9 +24,4 @@ export class CatalogEntity implements Catalog {
   //     this.author = new UserEntity(author);
   //   }
   // }
-}
-
-enum Role {
-  User,
-  Admin
 }

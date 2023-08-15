@@ -11,25 +11,34 @@ export class CatalogService {
     return this.prisma.catalog.create({ data: CreateCatalogDto });
   }
 
-  getBookByAuthor() {
-
+  getBookByAuthor(value) {
+    return this.prisma.catalog.findMany({ 
+      where: {
+        author: {
+          contains: value
+        }
+      }
+    });
   }
 
-  getBookByNaming() {
-    
+  getBookByNaming(value) {
+    return this.prisma.catalog.findMany({ 
+      where: {
+        naming: {
+          contains: value
+        }
+      }
+    });
   }
 
   findAll() {
-    return this.prisma.catalog.findMany({ where: { published: true } });
+    return this.prisma.catalog.findMany();
   }
 
   findOne(id: number) {
     return this.prisma.catalog.findUnique(
       { 
         where: { id },
-        include: {
-          author: true
-        }
       }
 
       );

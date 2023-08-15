@@ -2,11 +2,10 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, NotFoundException, P
 import { CatalogService } from './catalog.service';
 import { CreateCatalogDto } from './dto/create-catalog.dto';
 import { UpdateCatalogDto } from './dto/update-catalog.dto';
-import { ApiCreatedResponse, ApiOkResponse } from '@nestjs/swagger';
-import { CreateArticleDto } from 'src/articles/dto/create-article.dto';
-import { UpdateArticleDto } from 'src/articles/dto/update-article.dto';
+import { ApiBearerAuth, ApiCreatedResponse, ApiOkResponse } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { CatalogEntity } from './entities/catalog.entity';
+import { AuthorCatalog } from './dto/author-catalog.dto';
 
 @Controller('catalog')
 export class CatalogController {
@@ -15,21 +14,20 @@ export class CatalogController {
   @Post()
   @UseGuards(JwtAuthGuard)
   @ApiCreatedResponse({ type: CatalogEntity })
+  @ApiBearerAuth()
   async create(@Body() createCatalogDto: CreateCatalogDto) {
     // return new CatalogEntity(await this.catalogService.create(createCatalogDto));
     return await this.catalogService.create(createCatalogDto)
   }
 
-  // @Get()
-  // @UseGuards(JwtAuthGuard)
-  // @ApiOkResponse({ type: CatalogEntity, isArray: true })
-  // async getBookByAuthor() {
-  //   // const all = await this.catalogService.findAll();
-  //   // return all.map((elem) => new CatalogEntity(elem))
+  @Get()
+  @UseGuards(JwtAuthGuard)
+  @ApiOkResponse({ type: CatalogEntity, isArray: true })
+  async getBooksByAuthor(@Body() authorCatalog: AuthorCatalog) {
+    return await this.catalogService.getBookByAuthor(authorCatalog)
+  }
 
-  //   return await this.catalogService.findAll()
-  // }
-  // // TO DO !@#@!#!@
+  // TO DO !@#@!#!@
   // @Get()
   // @UseGuards(JwtAuthGuard)
   // @ApiOkResponse({ type: CatalogEntity, isArray: true })
@@ -49,7 +47,7 @@ export class CatalogController {
   }
 
   @Get(':id')
-  @UseGuards(JwtAuthGuard)
+  // @UseGuards(JwtAuthGuard)
   @ApiOkResponse({ type: CatalogEntity })
   async findOne(@Param('id', ParseIntPipe) id: number) {
 
@@ -67,6 +65,7 @@ export class CatalogController {
 
   @Patch(':id')
   @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   @ApiCreatedResponse({ type: CatalogEntity })
   async update(
     @Param('id', ParseIntPipe) id: number,
@@ -81,6 +80,7 @@ export class CatalogController {
 
   @Delete(':id')
   @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   @ApiOkResponse({ type: CatalogEntity })
   async remove(@Param('id', ParseIntPipe) id: number) {
     return await this.catalogService.remove(id)

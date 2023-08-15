@@ -17,7 +17,6 @@ export class UsersService {
     createUserDto.password = hashedPassword
     createUserDto.role = 'User'
     return this.prisma.user.create({ data: createUserDto })
-
   }
 
   findAll() {
@@ -42,4 +41,5 @@ export class UsersService {
   remove(id: number) {
     return this.prisma.user.delete({ where: { id }})
   }
+
 }
