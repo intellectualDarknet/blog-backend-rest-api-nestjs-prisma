@@ -4,46 +4,41 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { ApiBearerAuth, ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { UserEntity } from './entities/user.entity';
-import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { Roles } from 'src/auth/guards/role/roles.decorator';
+import { Public } from 'src/auth/public.decorator';
+import { Role } from 'src/auth/guards/role/role.enum';
 
 @Controller('users')
 @ApiTags('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
+  @Public()
   @Post()
-  // @Roles(Role.Admin)
   @ApiCreatedResponse({ type: UserEntity })
   async signUp(@Body() createUserDto: CreateUserDto) {
-    // return new UserEntity(await this.usersService.signUp(createUserDto));
     return await this.usersService.signUp(createUserDto)
   }
 
   @Get()
-  // @UseGuards(JwtAuthGuard)
-  // @Roles(Role.Admin)
-  // @ApiBearerAuth()
+  @Roles(Role.Admin)
+  @ApiBearerAuth()
   @ApiOkResponse({ type: UserEntity, isArray: true })
   async findAll() {
 
     return await this.usersService.findAll()
-    // const all = await this.usersService.findAll();
-    // return all.map((elem) => new UserEntity(elem))
   }
 
   @Get(':id')
-  @UseGuards(JwtAuthGuard)
-  // @Roles(Role.Admin)
+  @Roles(Role.Admin)
   @ApiBearerAuth()
   @ApiOkResponse({ type: UserEntity })
   async findOne(@Param('id', ParseIntPipe) id: string) {
     return await this.usersService.findOne(+id)
-    // return new UserEntity(await this.usersService.findOne(+id));
   }
 
   @Patch(':id')
-  @UseGuards(JwtAuthGuard)
-  // @Roles(Role.Admin)
+  @Roles(Role.Admin)
   @ApiBearerAuth()
   @ApiCreatedResponse({ type: UserEntity })
   async update(
@@ -51,18 +46,14 @@ export class UsersController {
     @Body() updateUserDto: UpdateUserDto
   ) {
     return await this.usersService.update(id, updateUserDto)
-    // return new UserEntity(await this.usersService.update(id, updateUserDto));
   }
 
   @Delete(':id')
-  @UseGuards(JwtAuthGuard)
-  // @Roles(Role.Admin)
+  @Roles(Role.Admin)
   @ApiBearerAuth()
   @ApiOkResponse({ type: UserEntity })
   async remove(@Param('id', ParseIntPipe) id: number) {
     return await this.usersService.remove(id)
-    // return new UserEntity(await this.usersService.remove(id));
   }
 
-  
 }

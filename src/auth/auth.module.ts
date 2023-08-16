@@ -6,18 +6,32 @@ import { JwtModule } from '@nestjs/jwt';
 import { PrismaModule } from 'src/prisma/prisma.module';
 import { UsersModule } from 'src/users/users.module';
 import { JwtStrategy } from './jwt.strategy';
+import { APP_GUARD } from '@nestjs/core/constants';
+import { JwtAuthGuard } from './jwt-auth.guard';
+import { RolesGuard } from './guards/role/role.guard';
 
 export const jwtSecret = 'some say some scream some stay silent'
 
 @Module({
   controllers: [AuthController],
-  providers: [AuthService, JwtStrategy],
+  providers: [
+    AuthService,
+    JwtStrategy,
+    {
+      provide: APP_GUARD,
+      useClass: JwtAuthGuard
+    },
+    {
+      provide: APP_GUARD,
+      useClass: RolesGuard,
+    }
+  ],
   imports: [
     PrismaModule, 
     PassportModule,
     JwtModule.register({
       secret: jwtSecret,
-      signOptions: { expiresIn: '5m' }
+      signOptions: { expiresIn: '1h' }
     }),
     UsersModule,
   ]

@@ -11,21 +11,21 @@ export class CatalogService {
     return this.prisma.catalog.create({ data: CreateCatalogDto });
   }
 
-  getBookByAuthor(value) {
+  getBooksByAuthor(data) {
     return this.prisma.catalog.findMany({ 
       where: {
         author: {
-          contains: value
+          contains: data.author
         }
       }
     });
   }
 
-  getBookByNaming(value) {
+  getBooksByNaming(value) {
     return this.prisma.catalog.findMany({ 
       where: {
         naming: {
-          contains: value
+          contains: value.naming
         }
       }
     });

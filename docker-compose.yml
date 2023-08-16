@@ -7,10 +7,11 @@ services:
     environment:
       - POSTGRES_USER=myuser
       - POSTGRES_PASSWORD=mypassword
+      - POSTGRES_DATABASE=postgres
     volumes:
       - postgres:/var/lib/postgresql/data
     ports:
-      - '5433:5432'
+      - '5455:5432'
 
 volumes:
   postgres:

@@ -20,11 +20,66 @@ async function main() {
   });
 
   const catalog2 = await prisma.catalog.upsert({
-    where: { author: 'A R B' },
+    where: { author: 'lexus192' },
     update: {},
     create: {
-      author: 'A R B',
+      author: 'lexus192',
       naming: 'Green Book'
+    },
+  });
+
+  const catalog3 = await prisma.catalog.upsert({
+    where: { author: 'Conan doile' },
+    update: {},
+    create: {
+      author: 'Conan doile',
+      naming: 'Magic book'
+    },
+  });
+
+  const catalog4 = await prisma.catalog.upsert({
+    where: { author: 'Conan Coil' },
+    update: {},
+    create: {
+      author: 'Conan Coil',
+      naming: 'White Book'
+    },
+  });
+
+  const catalog5 = await prisma.catalog.upsert({
+    where: { author: 'Conan Roile' },
+    update: {},
+    create: {
+      author: 'Conan Roile',
+      naming: 'Black Book'
+    },
+  });
+
+  const catalog6 = await prisma.catalog.upsert({
+    where: { author: 'Conan Foe' },
+    update: {},
+    create: {
+      author: 'Conan Foe',
+      naming: 'Red Book'
+    },
+  });
+
+  
+  const catalog7 = await prisma.catalog.upsert({
+    where: { author: 'Aliaksei Dzemidovich' },
+    update: {},
+    create: {
+      author: 'Aliaksei Dzemidovich',
+      naming: 'Blue Book'
+    },
+  });
+
+  const catalog8 = await prisma.catalog.upsert({
+    where: { author: 'Blackberry' },
+    update: {},
+    create: {
+      author: 'Blackberry',
+      naming: 'Willow Stories'
     },
   });
 
@@ -51,7 +106,7 @@ async function main() {
   });
 
 
-  console.log({ user1, user2, catalog1, catalog2 });
+  console.log({ user1, user2, catalog1, catalog2, catalog3, catalog4, catalog5, catalog6, catalog7, catalog8 });
 }
 
 // execute the main function

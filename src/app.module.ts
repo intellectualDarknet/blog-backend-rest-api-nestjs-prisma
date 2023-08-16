@@ -7,8 +7,9 @@ import { AuthModule } from './auth/auth.module';
 import { CatalogModule } from './catalog/catalog.module';
 
 @Module({
-  imports: [PrismaModule, UsersModule, AuthModule, CatalogModule],
+  imports: [PrismaModule, AuthModule, UsersModule, CatalogModule],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService,
+  ],
 })
 export class AppModule {}
