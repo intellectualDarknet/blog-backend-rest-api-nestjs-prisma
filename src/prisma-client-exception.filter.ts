@@ -1,5 +1,3 @@
-// src/prisma-client-exception.filter.ts
-
 import { ArgumentsHost, Catch, ExceptionFilter, HttpStatus } from '@nestjs/common';
 import { BaseExceptionFilter } from '@nestjs/core'
 import { Prisma } from '@prisma/client'
@@ -37,7 +35,6 @@ export class PrismaClientExceptionFilter extends BaseExceptionFilter { // 2
                 break;
         }
       
-      // default 500 error code
       super.catch(exception, host);
     }
 }
