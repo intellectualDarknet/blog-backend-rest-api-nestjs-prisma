@@ -10,22 +10,25 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model User {
+  id        Int @id @default(autoincrement())
+  name      String
+  email     String @unique
+  password  String
+  role      Role
+  catalogs  Catalog[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
 model Catalog {
   id          Int      @id @default(autoincrement())
   author      String   @unique
   naming      String   
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-}
-
-model User {
-  id    Int @id @default(autoincrement())
-  name  String
-  email String @unique
-  password String
-  role Role 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  owner       User?     @relation(fields: [ownerId], references: [id])
+  ownerId     Int?
 }
 
 enum Role {

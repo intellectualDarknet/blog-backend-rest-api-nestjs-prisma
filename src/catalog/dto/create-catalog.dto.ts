@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsString, IsNotEmpty, MinLength, IsOptional, MaxLength, IsBoolean } from "class-validator";
+import { IsString, IsNotEmpty, MinLength, IsOptional, MaxLength, IsBoolean, IsInt } from "class-validator";
 
 export class CreateCatalogDto {
     @IsString()
@@ -13,4 +13,9 @@ export class CreateCatalogDto {
     @MaxLength(300)
     @ApiProperty({ required: false })
     naming: string;
+
+    @IsOptional()
+    @IsInt()
+    @ApiProperty({ required: false })
+    ownerId: number
 }

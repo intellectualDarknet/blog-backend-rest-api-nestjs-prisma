@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateCatalogDto } from './dto/create-catalog.dto';
 import { UpdateCatalogDto } from './dto/update-catalog.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
@@ -7,8 +7,17 @@ import { PrismaService } from 'src/prisma/prisma.service';
 export class CatalogService {
   constructor(private prisma: PrismaService) {}
 
-  create(CreateCatalogDto: CreateCatalogDto) {
-    return this.prisma.catalog.create({ data: CreateCatalogDto });
+  async create(createCatalogDto: CreateCatalogDto) {
+
+    const user = await this.prisma.user.findUnique({ where: {
+      id: createCatalogDto.ownerId
+    }})
+
+    if(!user) {
+      throw new NotFoundException(`No user found for this id`);
+    }
+
+    return this.prisma.catalog.create({ data: createCatalogDto });
   }
 
   getBooksByAuthor(data) {

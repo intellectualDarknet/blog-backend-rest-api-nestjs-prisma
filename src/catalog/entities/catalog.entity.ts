@@ -17,11 +17,9 @@ export class CatalogEntity implements Catalog {
   @ApiProperty()
   updatedAt: Date;
 
-  // constructor({ author, ...data }: Partial<ArticleEntity>) {
-  //   Object.assign(this, data);
+  onwer: Catalog;
 
-  //   if (author) {
-  //     this.author = new UserEntity(author);
-  //   }
-  // }
+  @ApiProperty()
+  ownerId: number;
+
 }

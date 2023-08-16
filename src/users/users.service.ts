@@ -21,11 +21,11 @@ export class UsersService {
   }
 
   findAll() {
-    return this.prisma.user.findMany()
+    return this.prisma.user.findMany({ include : { catalogs: true } })
   }
 
   findOne(id: number) {
-    return this.prisma.user.findUnique({ where: { id } })
+    return this.prisma.user.findUnique({ where: { id }, include: { catalogs: true } })
   }
 
   async update(id: number, updateUserDto: UpdateUserDto) {
@@ -39,7 +39,11 @@ export class UsersService {
     return this.prisma.user.update({where: { id }, data: updateUserDto })
   }
 
-  remove(id: number) {
+  async remove(id: number) {
+
+    await this.prisma.catalog.deleteMany({ where: {
+      ownerId: id
+    }})
     return this.prisma.user.delete({ where: { id }})
   }
 
